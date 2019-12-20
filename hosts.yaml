@@ -1,0 +1,19 @@
+all:
+  children:
+    servers:
+      hosts:
+        ipa.freeside.co.uk:
+        docker.freeside.co.uk:
+        docker2.freeside.co.uk:
+        fs-web-02.freeside.co.uk:
+        storage.freeside.co.uk:
+    desktops:
+      hosts:
+        fs-desktop-[01:04].freeside.co.uk:
+    docker:
+      hosts:
+        docker.freeside.co.uk:
+        docker2.freeside.co.uk:
+    web:
+      hosts:
+        fs-web-02.freeside.co.uk:

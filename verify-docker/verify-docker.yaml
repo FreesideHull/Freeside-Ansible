@@ -1,4 +1,7 @@
-- hosts: docker
+---
+# Requires -e "target=targets portainer_ip=portainer_ip"
+
+- hosts: '{{ target }}'
   become: yes
   tasks:
   - name: Ensure dnf-plugins-core is installed.
@@ -30,7 +33,6 @@
         - docker-ce
         - docker-ce-cli
         - containerd.io
-        - python-docker-py
         - python-pip
       state: latest
 
@@ -42,6 +44,13 @@
       group: root
       mode: '0644'
       backup: yes
+
+  - name: Allow portainer to connect to host.
+    firewalld:
+      permanent: yes
+      immediate: yes
+      state: enabled
+      rich_rule: rule family="ipv4" source address="{{portainer_ip}}" port protocol="tcp" port="2375" accept
 
   - name: Enable and run docker.service.
     systemd:

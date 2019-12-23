@@ -50,7 +50,7 @@
       permanent: yes
       immediate: yes
       state: enabled
-      rich_rule: rule family="ipv4" source address="{{portainer_ip}}" port protocol="tcp" port="2375" accept
+      rich_rule: rule family="ipv4" source address="{{ portainer_ip }}" port protocol="tcp" port="2375" accept
 
   - name: Enable and run docker.service.
     systemd:

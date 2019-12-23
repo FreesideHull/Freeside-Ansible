@@ -1,0 +1,52 @@
+---
+# Requires -e "target=targets"
+- hosts: '{{ target }}'
+  name: Setup dhclient correctly (disable mac randomisation).
+  become: yes
+  tasks:
+  - name: Touch /etc/dhcp/dhclient.conf.
+    file:
+      path: /etc/dhcp/dhclient.conf
+      state: touch
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Append to /etc/dhcp/dhclient.conf.
+    command: tee --append /etc/dhcp/dhclient.conf
+    args:
+      stdin: "send dhcp-client-identifier = hardware;"
+
+  - name: Reboot.
+    reboot:
+
+- hosts: '{{ target }}'
+  name: Prepare hosts for IPA joining.
+  become: yes
+  tasks:
+  - name: Allow nfs home dirs.
+    seboolean:
+      name: use_nfs_home_dirs
+      state: yes
+      persistent: yes
+
+  - name: Set hostname on host.
+    hostname:
+      name: '{{ ansible_facts["ansible_fqdn"] }}'
+    template:
+      src: etchosts.j2
+      dest: /etc/hosts
+      owner: root
+      group: root
+      mode: '0644'
+  # Here we should edit the IPA server hosts file to add the host. Unsure of how. Maybe another play?
+  - name: Set DNS to IPA server.
+    nmcli:
+      conn_name: '{{ ansible_facts["ansible_default_ipv4"]["interface"] }}'
+      type: ethernet
+      dns4:
+      - 150.237.94.146
+      state: present
+    
+  - name: Reboot.
+    reboot:

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# This script installs and configures dnf-automatic, a program that automatically installs updates on a dnf-based machine.
+
 echo "[FreesideConfig] [1 / 3] Installing dnf-automatic";
 
 sudo dnf install -y dnf-automatic

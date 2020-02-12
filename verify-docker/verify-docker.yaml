@@ -1,5 +1,6 @@
 ---
 # Requires -e "target=targets portainer_ip=portainer_ip"
+# IMPORTANT - Will uninstall docker before reinstall; not recommended for use on prod machines (with running containers).
 
 - hosts: '{{ target }}'
   become: yes

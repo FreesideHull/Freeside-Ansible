@@ -1,0 +1,22 @@
+---
+# Requires -e "target=targets"
+- hosts: '{{ target }}'
+  name: Install dnf-automatic.
+  become: yes
+  tasks:
+  - name: Install dnf-automatic through dnf.
+    dnf:
+      name: dnf-automatic
+      state: latest
+  
+  - name: Change setting in /etc/dnf/automatic.conf.
+    replace:
+      path: /etc/dnf/automatic.conf
+      regexp: "apply_updates = no"
+      replace: "apply_updates = yes"
+  
+  - name: Enable systemd timer.
+    systemctl:
+      name: dnf-automatic.timer
+      state: started
+      enabled: yes

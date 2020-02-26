@@ -5,7 +5,7 @@ all:
         ipa.freeside.co.uk:
         docker.freeside.co.uk:
         docker2.freeside.co.uk:
-        fs-web-02.freeside.co.uk:
+        fs-web02.freeside.co.uk:
         storage.freeside.co.uk:
     desktops:
       hosts:

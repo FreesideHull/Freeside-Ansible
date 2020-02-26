@@ -16,4 +16,4 @@ all:
         docker2.freeside.co.uk:
     web:
       hosts:
-        fs-web-02.freeside.co.uk:
+        fs-web02.freeside.co.uk:
